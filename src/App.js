@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { leastFactor } from "./leastFactor";
+import { buildSpiral } from "./buildSpiral";
+
+const isPrime = (value) => value >= 2 && value === leastFactor(value);
 
 function App() {
+  const size = 79;
+  const [spiral, primes] = React.useMemo(() => {
+    const leSpiral = buildSpiral(size);
+    const lePrimes = leSpiral.map((l) => l.map(isPrime));
+    return [leSpiral, lePrimes];
+  }, [size]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="spiral">
+      {spiral.map((y, idxY) => (
+        <div className="line" key={idxY}>
+          {y.map((c, idxX) => (
+            <div className={"n " + (primes[idxY][idxX] ? "p" : "np")} key={c}>
+              {c}
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
