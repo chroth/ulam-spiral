@@ -1,4 +1,4 @@
-import times from "lodash/times";
+import times from 'lodash/times';
 
 // size 1
 /**
@@ -29,7 +29,23 @@ import times from "lodash/times";
  * 43 44 45 46 47 48 49
  */
 
-export const buildSpiral = (size) => {
+export type SpiralT = Array<Array<number>>;
+
+export const buildSpiral = (size: number): SpiralT => {
+  const spiral = times(size, () => times(size, () => 0));
+  const spiralGenerator = buildSpiralGenerator(size);
+
+  for (const nextValues of spiralGenerator) {
+    const [x, y, counter] = nextValues;
+    spiral[y][x] = counter;
+  }
+
+  return spiral;
+};
+
+export function* buildSpiralGenerator(
+  size: number
+): Generator<[number, number, number]> {
   let xMin = 0;
   let xMax = size - 1;
   let yMin = 0;
@@ -37,12 +53,10 @@ export const buildSpiral = (size) => {
   const maxValue = size * size;
   let nextBreakpoint = size - 2;
 
-  const spiral = times(size, () => times(size, () => 0));
-
-  let x = xMax;
+  let x = xMax - (size % 2 === 0 ? -1 : 0);
   let y = yMax;
   for (let counter = maxValue; counter > 1; counter--) {
-    spiral[y][x] = counter;
+    yield [x, y, counter];
 
     if (counter - 1 <= nextBreakpoint * nextBreakpoint) {
       xMin++;
@@ -63,7 +77,5 @@ export const buildSpiral = (size) => {
     }
   }
 
-  spiral[yMin][xMin] = 1;
-
-  return spiral;
-};
+  yield [yMin, xMin, 1];
+}
