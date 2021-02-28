@@ -1,8 +1,6 @@
 import React from 'react';
 import { buildSpiralGenerator } from './buildSpiral';
-import { leastFactor } from './leastFactor';
-
-const isPrime = (value: number) => value >= 2 && value === leastFactor(value);
+import { isPrime } from './isPrime';
 
 export const CanvasSpiral: React.VFC<{ size: number; canvasSize: number }> = ({
   size,
@@ -20,6 +18,8 @@ export const CanvasSpiral: React.VFC<{ size: number; canvasSize: number }> = ({
     canvasCtx.scale(scale, scale);
     canvasCtx.fillStyle = 'black';
     canvasCtx.fillRect(0, 0, size, size);
+
+    // Set up
     canvasCtx.fillStyle = 'green';
 
     const spiralGenerator = buildSpiralGenerator(size);

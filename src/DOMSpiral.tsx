@@ -1,9 +1,6 @@
 import React from 'react';
-import { leastFactor } from './leastFactor';
+import { isPrime } from './isPrime';
 import { buildSpiral, SpiralT } from './buildSpiral';
-
-export const isPrime: (value: number) => boolean = (value) =>
-  value >= 2 && value === leastFactor(value);
 
 type PrimesT = Array<Array<boolean>>;
 
