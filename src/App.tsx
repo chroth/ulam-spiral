@@ -11,6 +11,7 @@ const Toolbar: React.FC<{
 }> = ({ size, setSize, canvasSize, setCanvasSize }) => {
   const [value, setValue] = React.useState<number>(size);
   const [canvasValue, setCanvasValue] = React.useState<number>(canvasSize);
+
   return (
     <form
       onSubmit={(e) => {
@@ -50,10 +51,29 @@ const Toolbar: React.FC<{
   );
 };
 
+const DownloadButton: React.FC<{
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+}> = ({ canvasRef }) => {
+  return (
+    <a
+      href="#"
+      download="ulam-spiral.png"
+      onClick={(e) => {
+        e.preventDefault();
+        window.open(canvasRef?.current?.toDataURL() || '#', '_blank');
+      }}
+    >
+      Download Spiral
+    </a>
+  );
+};
+
 const App: React.VFC = () => {
   const renderDOM = false;
   const [canvasSize, setCanvasSize] = React.useState<number>(800);
   const [size, setSize] = React.useState<number>(5);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
   if (renderDOM) {
     return (
       <>
@@ -76,7 +96,8 @@ const App: React.VFC = () => {
         setCanvasSize={setCanvasSize}
         canvasSize={canvasSize}
       />
-      <CanvasSpiral size={size} canvasSize={canvasSize} />
+      <DownloadButton canvasRef={canvasRef} />
+      <CanvasSpiral size={size} canvasSize={canvasSize} canvasRef={canvasRef} />
     </>
   );
 };

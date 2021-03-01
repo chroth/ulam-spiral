@@ -2,11 +2,11 @@ import React from 'react';
 import { buildSpiralGenerator } from './buildSpiral';
 import { isPrime } from './isPrime';
 
-export const CanvasSpiral: React.VFC<{ size: number; canvasSize: number }> = ({
-  size,
-  canvasSize,
-}) => {
-  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+export const CanvasSpiral: React.VFC<{
+  size: number;
+  canvasSize: number;
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+}> = ({ size, canvasSize, canvasRef }) => {
   const scale = canvasSize / size;
 
   React.useEffect(() => {
